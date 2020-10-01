@@ -2,46 +2,64 @@
 #include <bits/stdc++.h>
 #include <stdio.h>
 #include <ctype.h>
-#pragma GCC optimize ("Ofast")
 #define ll long long
 #define MOD 1000000007
 #define endl "\n"
 #define vll vector<long long>
-#define mll map<long long,long long>
 #define pll pair<long long, long long>
 #define all(c) c.begin(),c.end()
-#define rall(c) c.rbegin(),c.rend()
-#define pb push_back
 #define f first
 #define s second
 #define inf INT_MAX
 #define size_1d 10000000
 #define size_2d 1000
-#define rep(i,v,n) for(ll i = v; i < n; i++)
-//Snippets: delta, sieve, fastexp, dfs, bfs, dijkstra, floodfill
+//Snippets: bigint, bsearch, graph, splitstring, segtree, delta, sieve, fastexp
 
 using namespace std;
 
-ll a, b;
+ll n;
+string str1, str2;
+map<char, ll> mp;
 
 void Input() {
-	cin >> a >> b;
+	cin >> n >> str1 >> str2;
 }
 
 void Solve() {
-	if (a < b)cout << 0;
-	else if (a == b)cout << "infinity";
-	else {
-		ll ans = 0;
-		a -= b;
-		for (ll i = 1; i * i <= a; i++) {
-			if (a % i == 0) {
-				if (i > b)ans++;
-				if (a / i != i and a / i > b)ans++;
+	for (ll i = 0; i < n; i++)
+		mp[str2[i]]++;
+
+	//part1
+	ll ans = 0;
+	for (ll i = 0; i < n; i++) {
+		ans++;
+		for (ll ch = '0'; ch <= '9'; ch++) {
+			if (ch >= str1[i] and mp[ch] > 0) {
+				ans--;
+				mp[ch]--;
+				break;
 			}
 		}
-		cout << ans;
 	}
+	cout << ans << endl;
+
+	mp.clear();
+
+	for (ll i = 0; i < n; i++)
+		mp[str2[i]]++;
+
+	//part1
+	ans = 0;
+	for (ll i = 0; i < n; i++) {
+		for (ll ch = '0'; ch <= '9'; ch++) {
+			if (ch > str1[i] and mp[ch] > 0) {
+				ans++;
+				mp[ch]--;
+				break;
+			}
+		}
+	}
+	cout << ans << endl;
 }
 
 int main() {
